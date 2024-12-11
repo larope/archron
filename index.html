@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lexend:wght@200&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="timer-container">
+            <div class="clock">
+                <h1 class="font-verdana" id="timer-text">1:00</h1>
+            </div>
+            <div class="timer">
+                <div class="fill-parent top-left">
+                    <div class="fill pivot-bottom-right" id="top-left"></div>
+                </div>
+
+                <div class="fill-parent top-right">
+                    <div class="fill pivot-bottom-left" id="top-right"></div>
+                </div>
+
+                <div class="fill-parent bottom-left">
+                    <div class="fill pivot-top-right" id="bottom-left"></div>
+                </div>
+
+                <div class="fill-parent bottom-right">
+                    <div class="fill pivot-top-left" id="bottom-right"></div>
+                </div>
+                
+            </div>
+            
+        </div>
+
+        <div class="start-timer">
+            <button class="standard-btn centered-btn start-btn" id="switch-button" onclick="timerSwitch(60)">Start</button>
+        </div>
+    </div>
+    <script src="./script.js"></script>
+</body>
+
+</html>
