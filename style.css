@@ -7,7 +7,12 @@ body, html{
     margin: 0;
     padding: 0;
 }
-
+.current-coroutine{
+    text-align: center;
+    font-size: 100px;
+    padding-top: 50px;
+    color: #5e503f;
+}
 .center{
     position: absolute;
     top: 50%;
@@ -19,7 +24,7 @@ body, html{
     display: grid;
     grid-template-columns: 1fr;
     padding-top: auto;
-    margin-top: 200px;
+    margin-top: 50px;
 }
   
 .timer-container div {
@@ -38,7 +43,6 @@ body, html{
     overflow: hidden;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 30px;
 }
 .font-verdana {
     font-family: FreeMono, monospace;
@@ -123,6 +127,7 @@ body, html{
 }
 
 .standard-btn{
+    margin-top: 100px;
     width: 300px;
     height: 80px;
     padding: 20px 50px;

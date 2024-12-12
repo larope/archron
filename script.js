@@ -6,9 +6,8 @@ const timer_text = document.getElementById('timer-text');
 const switch_button = document.getElementById('switch-button');
 const slider1 = document.getElementById('slider1');
 const slider2 = document.getElementById('slider2');
-const delay = 1;
 const timer = document.getElementById('timer');
-
+const stepPoints = document.getElementById('step-points');
 let clickedSlider = null;
 slider1.addEventListener('mouseenter', ()=> {
     bodyTag.style.cursor = "grab";
@@ -118,6 +117,12 @@ setDefaultPoint();
 let slider1Angle = 270;
 let slider2Angle = 90;
 
+let steps = 24;
+
+function generatePoints(){
+
+}
+
 onMouseHold = () => {
     if(clickedSlider === null) return;
     bodyTag.style.cursor = "grabbing";
@@ -131,42 +136,46 @@ onMouseHold = () => {
     if(Math.asin(vec.y) != 0) modifier = -Math.asin(vec.y)/Math.abs(Math.asin(vec.y));
     alpha = (360+Math.floor(modifier*alpha*57.2958))%360;
 
-    let finalPos = multiplyVector(vec, (getDivSize(timer).width-12.5)/2);
+    let step = 360/steps;
+    let x = (alpha%step)/step;
+    if(x >= 0.5) x = 1
+    else x = 0;
+    alpha = alpha - alpha%step + x*step;
 
     if(clickedSlider === slider1){
         slider1Angle = alpha;
-        slider1.style.left = timerCenter.x+finalPos.x + "px";
-        slider1.style.top = timerCenter.y+finalPos.y + "px";
-        slider1.style.transform = "translate(-50%, -50%)";
+        setSlider(slider1, slider1Angle);
     }
     else if(clickedSlider === slider2){
         slider2Angle = alpha;
-        slider2.style.left = timerCenter.x+finalPos.x + "px";
-        slider2.style.top = timerCenter.y+finalPos.y + "px";
-        slider2.style.transform = "translate(-50%, -50%)";
+        setSlider(slider2, slider2Angle);
     }
     
 }
 
 
+function setSlider(slider, angel){
+    let timerCenter = getDivCenter(timer);
 
+    let step = 360/steps;
+    let x = (angel%step)/step;
+    if(x >= 0.5) x = 1
+    else x = 0;
+    angel = angel - angel%step + x*step;
+
+    let finalPos = createPoint(
+    Math.cos(angel/57.2958)*(getDivSize(timer).width-12.5)/2, 
+    Math.sin(angel/57.2958)*(getDivSize(timer).width-12.5)/2);
+    slider.style.left = timerCenter.x+finalPos.x + "px";
+    slider.style.top = timerCenter.y-finalPos.y + "px";
+    slider.style.transform = "translate(-50%, -50%)";
+}
 setInterval(()=>{
     let timerCenter = getDivCenter(timer);
     if(clickedSlider != slider1){
-        let finalPos = createPoint(
-        Math.cos(slider1Angle/57.2958)*(getDivSize(timer).width-12.5)/2, 
-        Math.sin(slider1Angle/57.2958)*(getDivSize(timer).width-12.5)/2);
-        slider1.style.left = timerCenter.x+finalPos.x + "px";
-        slider1.style.top = timerCenter.y-finalPos.y + "px";
-        slider1.style.transform = "translate(-50%, -50%)";
+        setSlider(slider1, slider1Angle);
     } 
     if(clickedSlider != slider2){
-        let finalPos = createPoint(
-        Math.cos(slider2Angle/57.2958)*(getDivSize(timer).width-12.5)/2, 
-        Math.sin(slider2Angle/57.2958)*(getDivSize(timer).width-12.5)/2);
-        slider2.style.left = timerCenter.x+finalPos.x + "px";
-        slider2.style.top = timerCenter.y-finalPos.y + "px";
-        slider2.style.transform = "translate(-50%, -50%)";
+        setSlider(slider2, slider2Angle);
     }
 }, 10);
-let step = 10;
