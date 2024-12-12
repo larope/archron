@@ -10,6 +10,25 @@ const delay = 1;
 const timer = document.getElementById('timer');
 
 let clickedSlider = null;
+slider1.addEventListener('mouseenter', ()=> {
+    bodyTag.style.cursor = "grab";
+    if(clickedSlider !== null && mouseIsPressed){
+        bodyTag.style.cursor = "grabbing";
+    }
+});
+slider2.addEventListener('mouseenter', ()=> {
+    bodyTag.style.cursor = "grab";
+    if(clickedSlider !== null && mouseIsPressed){
+        bodyTag.style.cursor = "grabbing";
+    }
+});
+slider1.addEventListener('mouseleave', ()=> {
+    bodyTag.style.cursor = "default";
+});
+
+slider2.addEventListener('mouseleave', ()=> {
+    bodyTag.style.cursor = "default";
+});
 
 slider1.addEventListener('mousedown', () => {
     clickedSlider = slider1;
@@ -19,9 +38,12 @@ slider2.addEventListener('mousedown', () => {
 });
 
 bodyTag.addEventListener('mouseup', () => {
+    bodyTag.style.cursor = "default";
+    slider1.blur();
+    slider2.blur();
+
     clickedSlider = null;
 });
-
 
 let timerStarted = false;
 
@@ -48,8 +70,6 @@ function setPercentage(percentage) {
 
 }
 
-
-
 let radians = 0;
 let timeInSeconds = 60
 let timeElapsed = 0;
@@ -64,7 +84,6 @@ let currentTimer = setInterval(() => {
 }, 10);
 
 function timerSwitch(timeInSeconds) {
-
     if(!timerStarted) {
         timerStarted = true;
         switch_button.innerHTML = "Stop";
@@ -72,8 +91,6 @@ function timerSwitch(timeInSeconds) {
         timerStarted = false;
         switch_button.innerHTML = "Start";
     }
-
-   
 }
 
 function clamp(val, min, max) {
@@ -103,6 +120,7 @@ let slider2Angle = 90;
 
 onMouseHold = () => {
     if(clickedSlider === null) return;
+    bodyTag.style.cursor = "grabbing";
     let timerCenter = getDivCenter(timer);
 
     let mousePos = createPoint(mouseX, mouseY);
@@ -112,8 +130,6 @@ onMouseHold = () => {
     let modifier = 1;
     if(Math.asin(vec.y) != 0) modifier = -Math.asin(vec.y)/Math.abs(Math.asin(vec.y));
     alpha = (360+Math.floor(modifier*alpha*57.2958))%360;
-
-    console.log(alpha);
 
     let finalPos = multiplyVector(vec, (getDivSize(timer).width-12.5)/2);
 
@@ -131,6 +147,8 @@ onMouseHold = () => {
     }
     
 }
+
+
 
 setInterval(()=>{
     let timerCenter = getDivCenter(timer);
@@ -151,4 +169,4 @@ setInterval(()=>{
         slider2.style.transform = "translate(-50%, -50%)";
     }
 }, 10);
-let step = 0;
+let step = 10;

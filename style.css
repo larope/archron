@@ -168,3 +168,9 @@ body, html{
     z-index: 200;
     border: 12.5px solid #5e503f;
 }
+.time-slider:hover {
+    cursor: grab;
+}
+.time-slider:focus {
+    cursor: grabbing;
+}
