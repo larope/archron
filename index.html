@@ -17,9 +17,9 @@
     <div class="container">
         <div class="timer-container">
             <div class="clock">
-                <h1 class="font-verdana" id="timer-text">1:00</h1>
+                <h1 class="font-verdana unselectable" id="timer-text">1:00</h1>
             </div>
-            <div class="timer">
+            <div class="timer" id="timer">
                 <div class="fill-parent top-left">
                     <div class="fill pivot-bottom-right" id="top-left"></div>
                 </div>
@@ -35,15 +35,18 @@
                 <div class="fill-parent bottom-right">
                     <div class="fill pivot-top-left" id="bottom-right"></div>
                 </div>
-                
             </div>
-            
         </div>
-
+        <div class="sldiers">
+            <div class="time-slider" id="slider1"></div>
+            <div class="time-slider" id="slider2"></div>
+        </div>
+        
         <div class="start-timer">
             <button class="standard-btn centered-btn start-btn" id="switch-button" onclick="timerSwitch(60)">Start</button>
         </div>
     </div>
+    <script src="tools.js"></script>
     <script src="./script.js"></script>
 </body>
 
