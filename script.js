@@ -8,7 +8,10 @@ const slider1 = document.getElementById('slider1');
 const slider2 = document.getElementById('slider2');
 const timer = document.getElementById('timer');
 const stepPoints = document.getElementById('step-points');
+const radianToAngle = 57.2958;
+
 let clickedSlider = null;
+
 slider1.addEventListener('mouseenter', ()=> {
     bodyTag.style.cursor = "grab";
     if(clickedSlider !== null && mouseIsPressed){
@@ -21,10 +24,10 @@ slider2.addEventListener('mouseenter', ()=> {
         bodyTag.style.cursor = "grabbing";
     }
 });
+
 slider1.addEventListener('mouseleave', ()=> {
     bodyTag.style.cursor = "default";
 });
-
 slider2.addEventListener('mouseleave', ()=> {
     bodyTag.style.cursor = "default";
 });
@@ -66,23 +69,29 @@ function setPercentage(percentage) {
 
     currentPercentage = clamp(percentage / 25, 0, 1);
     top_left.style.transform = `rotate(${currentPercentage * 90 - 90}deg)`;
-
 }
 
 let radians = 0;
-let timeInSeconds = 60
+let timeInSeconds = 3600
 let timeElapsed = 0;
 
 let currentTimer = setInterval(() => {
     if(timerStarted){
-    if (timeElapsed >= timeInSeconds) clearInterval(currentTimer);
-    setPercentage(100 * timeElapsed / timeInSeconds);
-    timer_text.innerHTML = `${Math.floor((timeInSeconds - timeElapsed) / 60)}:${Math.floor(timeInSeconds - timeElapsed) % 60}`;
-    timeElapsed += 0.01;
-}
+        if (timeElapsed >= timeInSeconds) clearInterval(currentTimer);
+        setPercentage(100 * timeElapsed / timeInSeconds);
+        timer_text.innerHTML = `${Math.floor((timeInSeconds - timeElapsed) / 60)}:${Math.floor(timeInSeconds - timeElapsed) % 60}`;
+        timeElapsed += 0.01;
+    }
 }, 10);
 
 function timerSwitch(timeInSeconds) {
+    if(timeElapsed === 0){
+        slider1.style.borderColor="#c6ac8f";
+        slider1.style.backgroundColor="#5e503f";
+        slider2.style.borderColor="#c6ac8f";
+        slider2.style.backgroundColor="#5e503f";
+    }
+
     if(!timerStarted) {
         timerStarted = true;
         switch_button.innerHTML = "Stop";
@@ -96,32 +105,10 @@ function clamp(val, min, max) {
     return Math.min(Math.max(val, min), max);
 }
 
-function setDefaultPoint(){
-    let timerCenter = getDivCenter(timer);
-
-    let mousePos = createPoint(timerCenter.x, timerCenter.y+(getDivSize(timer).width-12.5)/2);
-
-    let vec = createVector(timerCenter, mousePos);
-    let finalPos = multiplyVector(normalizeVector(vec), (getDivSize(timer).width-12.5)/2);
-
-    slider1.style.left = timerCenter.x+finalPos.x + "px";
-    slider1.style.top = timerCenter.y+finalPos.y + "px";
-    slider1.style.transform = "translate(-50%, -50%)";
-
-    slider2.style.left = timerCenter.x+finalPos.x + "px";
-    slider2.style.top = timerCenter.y-finalPos.y + "px";
-    slider2.style.transform = "translate(-50%, -50%)";
-}
-setDefaultPoint();
-
 let slider1Angle = 270;
 let slider2Angle = 90;
 
-let steps = 24;
-
-function generatePoints(){
-
-}
+let steps = 12;
 
 onMouseHold = () => {
     if(clickedSlider === null) return;
@@ -134,7 +121,7 @@ onMouseHold = () => {
     let alpha = Math.acos(vec.x);
     let modifier = 1;
     if(Math.asin(vec.y) != 0) modifier = -Math.asin(vec.y)/Math.abs(Math.asin(vec.y));
-    alpha = (360+Math.floor(modifier*alpha*57.2958))%360;
+    alpha = (360+Math.floor(modifier*alpha*radianToAngle))%360;
 
     let step = 360/steps;
     let x = (alpha%step)/step;
@@ -150,9 +137,7 @@ onMouseHold = () => {
         slider2Angle = alpha;
         setSlider(slider2, slider2Angle);
     }
-    
 }
-
 
 function setSlider(slider, angel){
     let timerCenter = getDivCenter(timer);
@@ -171,10 +156,10 @@ function setSlider(slider, angel){
     slider.style.transform = "translate(-50%, -50%)";
 }
 setInterval(()=>{
-    let timerCenter = getDivCenter(timer);
     if(clickedSlider != slider1){
         setSlider(slider1, slider1Angle);
     } 
+
     if(clickedSlider != slider2){
         setSlider(slider2, slider2Angle);
     }
